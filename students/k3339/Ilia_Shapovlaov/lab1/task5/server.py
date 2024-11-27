@@ -1,20 +1,3 @@
-# Задание
-Написать простой веб-сервер для обработки GET и POST HTTP-запросов с помощью библиотеки socket в Python.
-
-## Сервер должен:
-
-- Принять и записать информацию о дисциплине и оценке по дисциплине.
-
-- Отдать информацию обо всех оценках по дисциплинам в виде HTML-страницы.
-
-## Примеры запросов с помощью curl:
-
-- curl -X POST http://localhost:8080 -d "subject=Mathematics&grade=5"
-
-- curl -X GET http://localhost:8080
-
-## Сервер:
-```py
 import socket
 import threading
 from urllib.parse import parse_qs
@@ -78,4 +61,3 @@ class Server:
 
 server = Server(host="127.0.0.1", port=8080)
 server.run()
-```
