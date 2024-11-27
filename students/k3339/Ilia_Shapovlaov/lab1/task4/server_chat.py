@@ -19,7 +19,7 @@ class ServerChat:
 
         self._clients = {}
 
-    def broadcast(self, message: str, sender_name: str) -> None:
+    def _broadcast(self, message: str, sender_name: str) -> None:
         for name, conn in self._clients.items():
             if name != sender_name:
                 try:
@@ -28,7 +28,7 @@ class ServerChat:
                     print(f"Failed to send message to {name}: {e}")
                     self._clients.pop(name)
 
-    def handle_client(self, conn: socket, addr) -> None:
+    def _handle_client(self, conn: socket, addr) -> None:
         print(f"New connection: {addr}")
 
         try:
@@ -46,7 +46,7 @@ class ServerChat:
                 print(f"Received from {name}: {message}")
 
                 broadcast_message = f"{name}: {message}"
-                self.broadcast(broadcast_message, name)
+                self._broadcast(broadcast_message, name)
 
         except Exception as e:
             print(f"Error handling client {addr}: {e}", sys.stderr)
@@ -64,7 +64,7 @@ class ServerChat:
             conn, addr = self._socket.accept()
 
             thread = threading.Thread(
-                target=self.handle_client, args=(conn, addr)
+                target=self._handle_client, args=(conn, addr)
             )
             thread.start()
 
