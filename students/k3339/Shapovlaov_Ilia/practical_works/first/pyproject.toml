@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "first"
+version = "0.1.0"
+description = ""
+authors = ["ShapovalovIlia <ilia-shapvalov04@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.1.4"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.8.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
