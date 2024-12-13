@@ -4,7 +4,9 @@ from urllib.parse import parse_qs
 
 
 class Server:
-    def __init__(self, *, host: str, port: int, connections_queue_len: int = 5) -> None:
+    def __init__(
+        self, *, host: str, port: int, connections_queue_len: int = 5
+    ) -> None:
         self._host = host
         self._port = port
         self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -34,11 +36,11 @@ class Server:
         match method:
             case "POST":
                 self._add_mark(request)
-                response = 'HTTP/1.1 200 OK\n\nGrade added!'
+                response = "HTTP/1.1 200 OK\n\nGrade added!"
             case "GET":
                 response = self._get_marks()
             case _:
-                response = 'HTTP/1.1 405 Method Not Allowed\n\n'
+                response = "HTTP/1.1 405 Method Not Allowed\n\n"
 
         conn.sendall(response.encode())
         conn.close()
@@ -46,17 +48,17 @@ class Server:
     def _add_mark(self, request):
         body = request.splitlines()[-1]
         data = parse_qs(body)
-        subject = data.get('subject', [''])[0]
-        grade = data.get('grade', [''])[0]
+        subject = data.get("subject", [""])[0]
+        grade = data.get("grade", [""])[0]
         if subject and grade:
             self._grades[subject] = grade
 
     def _get_marks(self) -> str:
-        response_body = '<html><body><h1>Grades</h1><ul>'
+        response_body = "<html><body><h1>Grades</h1><ul>"
         for subject, grade in self._grades.items():
-            response_body += f'<li>{subject}: {grade}</li>'
-        response_body += '</ul></body></html>'
-        return f'HTTP/1.1 200 OK\nContent-Type: text/html\n\n{response_body}'
+            response_body += f"<li>{subject}: {grade}</li>"
+        response_body += "</ul></body></html>"
+        return f"HTTP/1.1 200 OK\nContent-Type: text/html\n\n{response_body}"
 
 
 server = Server(host="127.0.0.1", port=8080)
